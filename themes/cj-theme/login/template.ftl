@@ -90,7 +90,7 @@
         "sumary": <#if displayMessage && message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>"${kcSanitize(message.summary)?no_esc}"<#else>""</#if>
       },
       "instruction": {
-        "emailLinkIdp1": "${msg("emailLinkIdp1", idpDisplayName, brokerContext.username, realm.displayName)}",
+        "emailLinkIdp1": "${msg("emailLinkIdp1", idpDisplayName, realm.displayName)}",
         "emailLinkIdp2": "${msg("emailLinkIdp2")}",
         "emailLinkIdp3": "${msg("emailLinkIdp3")}",
         "emailLinkIdp4": "${msg("emailLinkIdp4")}",

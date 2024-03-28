@@ -1,0 +1,1 @@
+update realm set login_theme = 'cj-theme';
