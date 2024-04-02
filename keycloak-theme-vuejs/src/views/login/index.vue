@@ -6,37 +6,62 @@
       <span>{{ message.sumary }}</span>
     </div>
     <form :action="getUrl(urls.loginAction)" method="post">
+      <div v-if="social && social.length > 0" class="social">
+        <a v-for="item in social" :key="item.alias" style="width: 250px;" :href="getUrl(item.loginUrl)">
+          <span v-html="getIcon(item.alias)"></span>
+          <span>Login with {{ item.displayName }}</span>
+        </a>
+      </div>
+      <span
+        v-html="getIcon('arrow')"
+        class="arrow"
+        :class="{ 'rotate': showCompleteForm || validations.usernameOrPassword }"
+        @click="showCompleteForm = !showCompleteForm">
+      </span>
       <div
+      v-if="showCompleteForm || validations.usernameOrPassword"
         :class="
-          validations.usernameOrPassword ? 'form-group error' : 'form-group'
+          validations.usernameOrPassword && isFormIncomplete ? 'form-group error' : 'form-group'
         "
       >
         <label for="username">{{ getUsernameLabel() }}</label>
         <input
           tabindex="1"
           name="username"
-          :value="forms.loginUsername"
+          v-model="loginUsername"
           type="text"
         />
-        <span>{{ validations.usernameOrPassword }}</span>
+        <span
+          v-if="validations.usernameOrPassword && isFormIncomplete"
+          class="error-message">
+            {{ validations.usernameOrPassword }}
+        </span>
       </div>
       <div
+        v-if="showCompleteForm || validations.usernameOrPassword"
         :class="
-          validations.usernameOrPassword ? 'form-group error' : 'form-group'
+          validations.usernameOrPassword && isFormIncomplete ? 'form-group error' : 'form-group'
         "
       >
-        <label for="password">{{ labels.password }}</label>
+        <label style="margin-top: 14px;" for="password">{{ labels.password }}</label>
         <input
           tabindex="2"
           name="password"
           type="password"
+          v-model="loginPassword"
           autocomplete="off"
         />
+        <span
+          v-if="validations.usernameOrPassword && isFormIncomplete"
+          class="error-message">
+            {{ validations.usernameOrPassword }}
+        </span>
       </div>
 
       <div
-        v-if="permissions.rememberMe && !permissions.usernameEditDisabled"
+        v-if="permissions.rememberMe && !permissions.usernameEditDisabled && showCompleteForm || validations.usernameOrPassword"
         class="checkbox"
+        style="margin-bottom: 28px;"
       >
         <label>
           <input
@@ -45,23 +70,30 @@
             type="checkbox"
             :checked="forms.loginRememberMe"
           />
-          {{ labels.rememberMe }}
+          <span v-if="labels.rememberMe" class="remember-me">{{ labels.rememberMe }}</span>
         </label>
-        <span v-if="permissions.resetPasswordAllowed">
-          <a
-            tabindex="4"
-            :href="getUrl(urls.loginResetCredentials)"
-            class="forgot-password"
-            >{{ labels.doForgotPassword }}</a
-          >
-        </span>
       </div>
       <input
+        v-if="showCompleteForm || validations.usernameOrPassword"
         type="hidden"
         name="credentialId"
         :value="forms.selectedCredential"
       />
-      <button tabindex="5" type="submit">{{ labels.doLogIn }}</button>
+      <button
+      v-if="showCompleteForm || validations.usernameOrPassword"
+      tabindex="5"
+      type="submit"
+      :disabled="isFormIncomplete">
+        {{ labels.doLogIn }}
+      </button>
+      <span v-if="permissions.resetPasswordAllowed && showCompleteForm || validations.usernameOrPassword">
+        <a
+          tabindex="4"
+          :href="getUrl(urls.loginResetCredentials)"
+          class="forgot-password"
+          >{{ labels.doForgotPassword }}</a
+        >
+      </span>
     </form>
     <div
       class="register"
@@ -71,19 +103,13 @@
         !permissions.registrationDisabled
       "
     >
-      <span>{{ labels.noAccount }}</span>
+      <span v-if="labels.noAccount">{{ labels.noAccount }}</span>
       <a :href="getUrl(urls.registration)">{{ labels.doRegister }}</a>
-    </div>
-    <div v-if="social.length" class="social">
-      <a v-for="item in social" :key="item.alias" :href="getUrl(item.loginUrl)">
-        <span v-html="getIcon(item.alias)"></span>
-        <span>{{ item.displayName }}</span>
-      </a>
     </div>
   </layout>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import Layout from '~/components/Layout.vue'
 import { useLogin } from '~/hooks'
 
@@ -93,10 +119,24 @@ export default defineComponent({
     Layout
   },
   setup() {
-    return useLogin()
-  },
-  mounted() {
-    console.log('Login')
+    const { forms } = useLogin()
+    const loginForms = forms.value
+
+    const loginUsername = ref(loginForms.loginUsername)
+    const loginPassword = ref('')
+    const showCompleteForm = ref(false)
+
+    const isFormIncomplete = computed(() => {
+      return !loginUsername.value || !loginPassword.value
+    })
+
+    return {
+      ...useLogin(),
+      loginUsername,
+      loginPassword,
+      showCompleteForm,
+      isFormIncomplete
+    }
   }
 })
 </script>

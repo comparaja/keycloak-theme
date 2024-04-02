@@ -2,8 +2,8 @@
   <layout>
     <h3 class="title">{{ titles.emailForgotTitle }}</h3>
     <div v-if="message.sumary" :class="`alert-${message.type}`">
-      <span v-html="getIcon(message.type)"></span>
-      <span>{{ message.sumary }}</span>
+      <span v-if="message.type" v-html="getIcon(message.type)"></span>
+      <span v-if="message.sumary">{{ message.sumary }}</span>
     </div>
     <form :action="getUrl(urls.loginAction)" method="post">
       <div
@@ -18,7 +18,7 @@
           :value="forms.loginUsername"
           type="text"
         />
-        <span>{{ validations.usernameOrPassword }}</span>
+        <span v-if="validations.usernameOrPassword">{{ validations.usernameOrPassword }}</span>
       </div>
       <button tabindex="4" type="submit">{{ labels.doSubmit }}</button>
     </form>

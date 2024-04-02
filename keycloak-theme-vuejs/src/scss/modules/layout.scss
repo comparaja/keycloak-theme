@@ -1,20 +1,26 @@
 .layout {
-  display: flex;
-  width: 100%;
   height: 100%;
+  margin: 0 20px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 60px;
+  // background-size: 40px;
+  // background-image: url(https://www.comparaja.pt/favicon.ico);
 
   &-box {
+    width: 100%;
+    max-width: 475px;
+
     display: flex;
     flex-direction: row;
     align-items: stretch;
     justify-content: stretch;
-    width: 840px;
-    min-height: 440px;
-    background: #fff;
-    border-radius: 7px;
-    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+    background: $white;
+    border-radius: 12px;
+    border: 1px solid $blueLightBlue;
+    box-shadow: 0px 0px 14.5px 0px rgba(21, 80, 114, 0.10);
 
     &-img {
       display: flex;
@@ -27,12 +33,11 @@
     }
 
     &-form {
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      width: 420px;
-      min-height: 100%;
-      padding: 30px;
+      padding: 56px 40px 16px 40px;
 
       .logo {
         display: flex;

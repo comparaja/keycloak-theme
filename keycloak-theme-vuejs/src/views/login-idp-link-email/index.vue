@@ -2,8 +2,8 @@
   <layout>
     <h3 class="title">{{ titles.emailLinkIdpTitle }}</h3>
     <div v-if="message.sumary" :class="`alert-${message.type}`">
-      <span v-html="getIcon(message.type)"></span>
-      <span>{{ getSumary(message.sumary) }}</span>
+      <span v-if="message.type" v-html="getIcon(message.type)"></span>
+      <span v-if="message.sumary">{{ getSumary(message.sumary) }}</span>
     </div>
     <p class="instruction">
       {{ instruction.emailLinkIdp1 }}
