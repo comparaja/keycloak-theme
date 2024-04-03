@@ -7,17 +7,26 @@
     </div>
     <form :action="getUrl(urls.loginAction)" method="post">
       <div v-if="social && social.length > 0" class="social">
-        <a v-for="item in social" :key="item.alias" style="width: 250px;" :href="getUrl(item.loginUrl)">
+        <a
+        v-for="item in social"
+        :key="item.alias"
+        style="width: 347px; height: 58px; border-radius: 39px;"
+        :href="getUrl(item.loginUrl)">
           <span v-html="getIcon(item.alias)"></span>
           <span>Login with {{ item.displayName }}</span>
         </a>
       </div>
-      <span
+      <div class="logo-container" style="margin-top: 20px;">
+        <span>powered by</span>
+        <span v-html="getIcon('comparaja')"></span>
+      </div>
+      <!-- TODO - /** In the future, please remove the comments below so we can display more information */ -->
+      <!-- <span
         v-html="getIcon('arrow')"
         class="arrow"
         :class="{ 'rotate': showCompleteForm || validations.usernameOrPassword }"
         @click="showCompleteForm = !showCompleteForm">
-      </span>
+      </span> -->
       <div
       v-if="showCompleteForm || validations.usernameOrPassword"
         :class="
