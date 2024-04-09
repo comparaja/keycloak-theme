@@ -2,3 +2,4 @@ themes/*
 target/*
 src/*
 .DS_Store
+*/node_modules/*
