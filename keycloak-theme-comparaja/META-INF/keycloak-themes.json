@@ -1,0 +1,10 @@
+{
+  "themes": [
+      {
+          "name": "cj-theme",
+          "types": [
+              "login"
+          ]
+      }
+  ]
+}

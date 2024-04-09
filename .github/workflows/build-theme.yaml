@@ -1,0 +1,86 @@
+name: Release Theme
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+permissions:
+  contents: read
+  pull-requests: write
+  packages: write
+
+jobs:
+  build-dev:
+    name: 🛠️ Build Development
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Maven
+        uses: actions/setup-java@v4.2.1
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: '20'
+
+      - name: 🏗️ Build
+        run: |
+          npm install
+          npm run build
+        working-directory: ./keycloak-theme-comparaja
+
+      - name: Package
+        run: |
+          mvn clean package 
+
+      - name: 📦 Publish Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: publish-dev
+          path: target/*.jar
+
+  build-prod:
+    name: 🛠️ Build Production
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Maven
+        uses: actions/setup-java@v4.2.1
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: '20'
+
+      - name: 🏗️ Build
+        run: |
+          npm install
+          npm run build
+        working-directory: ./keycloak-theme-comparaja
+
+      - name: Package
+        run: |
+          mvn clean package 
+
+      - name: 📦 Publish Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: publish
+          path: target/*.jar
+        

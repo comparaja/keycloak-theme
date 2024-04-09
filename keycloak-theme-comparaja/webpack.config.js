@@ -112,7 +112,23 @@ module.exports = (env, argv) => {
             to: path.resolve(__dirname, '..', 'themes', THEME_NAME, 'login')
           }
         ]
-      })
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, 'src', 'static'),
+            to: path.resolve(__dirname, '..', 'src', 'main', 'resources', 'theme', THEME_NAME, 'login')
+          }
+        ]
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, 'META-INF'),
+            to: path.resolve(__dirname, '..', 'src', 'main', 'resources', 'META-INF')
+          }
+        ]
+      }),
     ],
     ...(isDevelopment
       ? {}
