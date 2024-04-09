@@ -73,6 +73,10 @@ jobs:
           npm install
           npm run build
         working-directory: ./keycloak-theme-comparaja
+      
+      - name: Copy Files
+        run: |
+          cp -a themes/cj-theme/login/* keycloak-theme-comparaja/src/main/resources/theme/comparaja/login
 
       - name: Package
         run: |
