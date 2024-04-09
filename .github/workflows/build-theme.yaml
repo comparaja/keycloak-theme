@@ -76,7 +76,7 @@ jobs:
       
       - name: Copy Files
         run: |
-          cp -a themes/cj-theme/login/* keycloak-theme-comparaja/src/main/resources/theme/comparaja/login
+          cp -a themes/cj-theme/login/* src/main/resources/theme/cj-theme/login/
 
       - name: Package
         run: |
