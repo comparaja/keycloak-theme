@@ -4,8 +4,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.comparaja.auth</groupId>
-	<artifactId>comparaja-theme</artifactId>
+	<artifactId>cj-theme</artifactId>
 	<version>0.0.1</version>
-	<name>comparaja-theme</name>
+	<name>cj-theme</name>
 	<description />
 </project>
